@@ -28,6 +28,9 @@ export default defineNuxtConfig({
     download: true,
   },
   app: {
+    seoMeta: {
+      ogImage: "https://enesgenc.dev/ogimage.png",
+    },
     head: {
       link: [
         {
@@ -55,8 +58,6 @@ export default defineNuxtConfig({
         { name: "msapplication-TileColor", content: "#000000" },
         { name: "msapplication-Config", content: "/browserconfig.xml" },
         { name: "theme-color", content: "#000000" },
-        { name: "og:title", content: "Enes Genç - Student & Web Developer" },
-        { name: "og:image", content: "https://enesgenc.dev/ogimage.svg" },
       ],
     },
   },
