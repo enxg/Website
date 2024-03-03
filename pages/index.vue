@@ -18,6 +18,7 @@ import { sendEmailSchema } from "~/schemas/sendEmail";
 const formSchema = toTypedSchema(sendEmailSchema);
 
 const formActive = ref(false);
+const submitActive = ref(true);
 const turnstile = ref();
 
 const { $client } = useNuxtApp();
@@ -31,18 +32,7 @@ async function onSubmit(
   },
   { resetForm }: FormActions<any>,
 ) {
-  console.log("Form submitted!", values);
-
-  /*
-    await fetch("https://mail-worker.enxg.workers.dev", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-  */
-
+  submitActive.value = false;
   const { success } = await $client.sendEmail.mutate(values);
 
   if (success) {
@@ -59,6 +49,8 @@ async function onSubmit(
       description: "Please try again later.",
     });
   }
+
+  submitActive.value = true;
 }
 
 function onInvalidSubmit({ values, errors, results }: any) {
@@ -161,7 +153,7 @@ function onInvalidSubmit({ values, errors, results }: any) {
               ref="turnstile"
             />
           </FormField>
-          <Button class="font-medium mt-2" type="submit">Send</Button>
+          <Button class="font-medium mt-2" type="submit" :disabled="!submitActive">Send</Button>
         </Form>
       </div>
     </div>
